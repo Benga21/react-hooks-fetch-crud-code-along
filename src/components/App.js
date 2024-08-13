@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import ShoppingList from "./ShoppingList";
+import ShoppingList from '../components/ShoppingList.js';
+
 import Header from "./Header";
 
 function App() {

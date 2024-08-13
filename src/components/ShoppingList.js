@@ -1,36 +1,40 @@
-import React, { useState } from "react";
-import ItemForm from "./ItemForm";
-import Filter from "./Filter";
-import Item from "./Item";
+import React, { useState } from 'react';
 
-function ShoppingList() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+const ShoppingList = () => {
   const [items, setItems] = useState([]);
+  const [newItem, setNewItem] = useState('');
 
-  function handleCategoryChange(category) {
-    setSelectedCategory(category);
-  }
+  const handleAddItem = () => {
+    if (newItem) {
+      setItems([...items, newItem]);
+      setNewItem('');
+    }
+  };
 
-  const itemsToDisplay = items.filter((item) => {
-    if (selectedCategory === "All") return true;
-
-    return item.category === selectedCategory;
-  });
+  const handleRemoveItem = (itemToRemove) => {
+    setItems(items.filter(item => item !== itemToRemove));
+  };
 
   return (
-    <div className="ShoppingList">
-      <ItemForm />
-      <Filter
-        category={selectedCategory}
-        onCategoryChange={handleCategoryChange}
+    <div>
+      <h1>Shopping List</h1>
+      <input
+        type="text"
+        value={newItem}
+        onChange={(e) => setNewItem(e.target.value)}
+        placeholder="Add new item"
       />
-      <ul className="Items">
-        {itemsToDisplay.map((item) => (
-          <Item key={item.id} item={item} />
+      <button onClick={handleAddItem}>Add Item</button>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>
+            {item}
+            <button onClick={() => handleRemoveItem(item)}>Remove</button>
+          </li>
         ))}
       </ul>
     </div>
   );
-}
+};
 
 export default ShoppingList;
